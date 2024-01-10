@@ -1,6 +1,3 @@
-[submodule "PTR_NFT_Front"]
-	path = PTR_NFT_Front
-	url = https://github.com/HalimACeylan/PTR_NFT_Front.git
 [submodule "src/PTR_NFT_Front"]
 	path = src/PTR_NFT_Front
 	url = https://github.com/HalimACeylan/PTR_NFT_Front
