@@ -2,25 +2,15 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-// import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NFT is ERC721URIStorage {
     constructor() ERC721("ParlaTR","PTR") {}
-    uint public amountOfToken;
+    uint private _amountOfToken = 0;
 
-    // function mint(
-    //     string calldata _uri,
-    //     uint256 _tokenid,
-    //     address _to
-    // ) external onlyOwner {
-    //     _mint(_to, _tokenid);
-    //     _setTokenURI(_tokenid, _uri);
-    // }
-
-    function mint(string memory _tokenURI) external returns(uint) {
-        amountOfToken++;
-        _safeMint(msg.sender, amountOfToken);
-        _setTokenURI(amountOfToken, _tokenURI);
-        return(amountOfToken);
+    function createNFT(string calldata _tokenURI) external returns(uint){
+        _amountOfToken++;
+        _safeMint(msg.sender, _amountOfToken);
+        _setTokenURI(_amountOfToken, _tokenURI);
+        return(_amountOfToken);
     }
 }
