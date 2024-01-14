@@ -2,9 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-
 import "hardhat/console.sol";
 
 contract Marketplace is ReentrancyGuard {
@@ -45,6 +43,7 @@ contract Marketplace is ReentrancyGuard {
         feePercent = _feePercent;
     }
 
+    // Add, the URI of the NFT or Find a way to access URI over '_nft'
     function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
         require(_price > 0, "Price must be greater than zero");
         itemCount++;
@@ -94,5 +93,19 @@ contract Marketplace is ReentrancyGuard {
     
     function getTotalPrice(uint _itemId) view public returns(uint){
         return((items[_itemId].price*(100 + feePercent))/100);
+    }
+
+    // Just a tryout
+    // TODO: Delete later on.
+    function printAllItemsAndMetadata() view public{
+        console.log("printAllItemsAndMetadata is called");
+        for(uint i = 0; i < itemCount; i++){
+            Item storage item = items[i];
+            console.log(item.itemId);
+            console.log(address(item.nft));
+            console.log(item.tokenId);
+            console.log(item.price);
+            console.log(item.seller);
+        }
     }
 }

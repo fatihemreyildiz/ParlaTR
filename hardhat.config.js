@@ -8,5 +8,6 @@ module.exports = {
     sources: "./src/backend/contracts",
     cache: "./src/backend/cache",
     tests: "./src/backend/test"
-  }
+  },
+  allowUnlimitedContractSize: true
 };
