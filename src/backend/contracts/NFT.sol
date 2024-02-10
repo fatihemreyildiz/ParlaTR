@@ -14,12 +14,4 @@ contract NFT is ERC721URIStorage {
         _setTokenURI(tokenCount, _tokenURI);
         return(tokenCount);
     }
-
-    // Just a tryout
-    // TODO: Delete later on.
-    function printExistingNFTIDs() public view {
-        for(uint i = 0; i < tokenCount; i++){
-            console.log(i);
-        }
-    }
 }

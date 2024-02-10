@@ -10,31 +10,34 @@ contract Marketplace is ReentrancyGuard {
     uint public immutable feePercent;
     uint public itemCount = 0; 
 
+    // When the struct is initialized all the values set to default...
+    // That's why when we print, we see all zeros.
+    // In order to fix it, we set the index 1...
     struct Item {
-        uint itemId;
-        IERC721 nft;
-        uint tokenId;
+        uint itemIdInMarketplace;
+        IERC721 nftIERC721;
+        uint tokenIdInNFT;
         uint price;
-        address payable seller;
+        address payable owner;
         bool sold;
     }
 
     mapping(uint => Item) public items;
 
     event Offered(
-        uint itemId,
-        address indexed nft,
-        uint tokenId,
+        uint itemIdInMarketplace,
+        address indexed nftIERC721,
+        uint tokenIdInNFT,
         uint price,
-        address indexed seller
+        address indexed owner
     );
 
     event Bought(
-        uint itemId,
-        address indexed nft,
-        uint tokenId,
+        uint itemIdInMarketplace,
+        address indexed nftIERC721,
+        uint tokenIdInNFT,
         uint price,
-        address indexed seller,
+        address indexed owner,
         address indexed buyer
     );
 
@@ -43,16 +46,20 @@ contract Marketplace is ReentrancyGuard {
         feePercent = _feePercent;
     }
 
-    // Add, the URI of the NFT or Find a way to access URI over '_nft'
-    function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
+    // These two functions are added to dissmiss the error messages...
+    receive() external payable {}
+    fallback() external payable {}
+
+    // Add, the URI of the nftIERC721 or Find a way to access URI over '_nftIERC721'
+    function makeItem(IERC721 _nftIERC721, uint _tokenIdInNFT, uint _price) external nonReentrant {
         require(_price > 0, "Price must be greater than zero");
         itemCount++;
-        _nft.transferFrom(msg.sender, address(this), _tokenId);
+        _nftIERC721.transferFrom(msg.sender, address(this), _tokenIdInNFT);
 
         items[itemCount] = Item (
             itemCount,
-            _nft,
-            _tokenId,
+            _nftIERC721,
+            _tokenIdInNFT,
             _price,
             payable(msg.sender),
             false
@@ -60,50 +67,46 @@ contract Marketplace is ReentrancyGuard {
 
         emit Offered(
             itemCount,
-            address(_nft),
-            _tokenId,
+            address(_nftIERC721),
+            _tokenIdInNFT,
             _price,
             msg.sender
         );
     }
 
-    function purchaseItem(uint _itemId) external payable nonReentrant {
-        uint _totalPrice = getTotalPrice(_itemId);
-        Item storage item = items[_itemId];
-        require(_itemId > 0 && _itemId <= itemCount, "item doesn't exist");
-        require(msg.sender.balance >= _totalPrice, "not enough Ptr_nft to cover item price and market fee");
-        require(!item.sold, "item already sold");
+    function purchaseItem(uint _itemIdInMarketplace) external payable nonReentrant {
+        uint _totalPrice = getTotalPrice(_itemIdInMarketplace);
+        Item storage item = items[_itemIdInMarketplace];
+        require(_itemIdInMarketplace > 0 && _itemIdInMarketplace <= itemCount, "item doesn't exist");
+        require(msg.sender.balance >= _totalPrice, "Not enough PTR to cover item price and market fee");
+        require(!item.sold, "Item already sold");
 
-        (bool success, ) = item.seller.call{value:item.price}("");
+        (bool success, ) = item.owner.call{value:item.price}("");
         require(success, "Transfer failed.");
         item.sold = true;
 
-        item.nft.transferFrom(address(this), msg.sender, item.tokenId);
+        item.nftIERC721.transferFrom(address(this), msg.sender, item.tokenIdInNFT);
         emit Bought(
-            _itemId,
-            address(item.nft),
-            item.tokenId,
+            _itemIdInMarketplace,
+            address(item.nftIERC721),
+            item.tokenIdInNFT,
             item.price,
-            item.seller,
+            item.owner,
             msg.sender
         );
+        item.owner = payable(msg.sender);
     }
     
-    function getTotalPrice(uint _itemId) view public returns(uint){
-        return((items[_itemId].price*(100 + feePercent))/100);
+    function getTotalPrice(uint _itemIdInMarketplace) view public returns(uint){
+        return((items[_itemIdInMarketplace].price*(100 + feePercent))/100);
     }
 
-    // Just a tryout
-    // TODO: Delete later on.
-    function printAllItemsAndMetadata() view public{
-        console.log("printAllItemsAndMetadata is called");
-        for(uint i = 0; i < itemCount; i++){
-            Item storage item = items[i];
-            console.log(item.itemId);
-            console.log(address(item.nft));
-            console.log(item.tokenId);
-            console.log(item.price);
-            console.log(item.seller);
-        }
+    function getEachItem(uint index) external view 
+    returns (uint, address, uint, uint, address, bool) {
+        return(items[index].itemIdInMarketplace, address(items[index].nftIERC721), items[index].tokenIdInNFT, items[index].price, items[index].owner, items[index].sold);
+    }
+
+    function getItemCount() public view returns (uint){
+        return itemCount;
     }
 }
