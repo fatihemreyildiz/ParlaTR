@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Header from '@/components/sections/Header';
 import Footer from '@/components/sections/Footer';
 import NFTPage from '@/components/sections/NftPage';
-import Warn from '@/components/sections/SignInWarn';
-import Inventory from '@/components/sections/Inventory';
 import { ethers } from "ethers";
 import MarketPlace from "../contractsData/Marketplace.json";
 import MarketPlaceAddress from "../contractsData/Marketplace-address.json";

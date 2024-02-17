@@ -1,11 +1,14 @@
-
+"use client";
 import Image from "next/image";
+import '@/app/globals.css'
 
 
-export default function NFTPage(props:any) {
+export default function Nftpage(props:any) {
   return (
-    <div>
-      <div className="flex flex-col mx-16 h-[60vh]">
+    <div className="bg-gray-800  h-[90vh]">
+    
+    
+      <div className="flex flex-col mx-16 h-[60vh] ">
         <div className="flex flex-row h-full mb-8">
           <img
             src="https://picsum.photos/1920/1080"
@@ -14,11 +17,10 @@ export default function NFTPage(props:any) {
           />
           <div className="flex flex-col text-white">
             <h2 className="text-4xl text-center text-red-600">
-              İrem çok çok çok çok tatlı{" "}
+              İrem çok çok çok çok tatlı
             </h2>
             <br />
             <p className="text-xl w-2/3 mx-auto text-gray-300">
-              {" "}
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
               voluptatem doloribus aperiam suscipit! Excepturi nulla suscipit
               dolore alias architecto aliquam maiores culpa quia neque saepe.
@@ -32,7 +34,6 @@ export default function NFTPage(props:any) {
               Provident vitae explicabo incidunt ea.
             </p>
             <button className="border border-black bg-red-600 w-1/6 text-xl px-3 py-2 rounded-lg shadow-lg mx-auto mt-4 ">
-              {" "}
               ALBENİ
             </button>
             <button></button>
