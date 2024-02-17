@@ -1,34 +1,44 @@
-"use client"
-import React, { useState } from 'react';
-import axios from 'axios';
-import { ethers } from "ethers";
-import NFTAbi from "../../contractsData/NFT.json";
-import NFTAddress from '../../contractsData/NFT-address.json'
-import MarketplaceAbi from '../../contractsData/Marketplace.json'
-import MarketplaceAddress from '../../contractsData/Marketplace-address.json'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Contract } from 'ethers';
-import Card from '../ui/Card'
 
-const NftPage = () => { 
+import Image from "next/image";
+
+
+export default function NFTPage(props:any) {
   return (
-    <div className="flex">
-    <Card href="/nft" src="https://picsum.photos/1920/1080" alt="image" name="NFT 1" price="0.01 ETH" width="80" height="80"/>
-    <div className="flex flex-col justify-center item-center  w-3/4 bg-gray-800 mx-auto">
-      <div className="container my-10 mx-auto h-full text-center align-middle">
-        <h1 className="text-3xl font-bold mb-5 text-white text-center">NFT İsmi</h1>
-        <p className="text-1xl font-bold mb-5 text-white justify-center text-center">NFT Açıklaması</p>
-        <p className="text-1xl font-bold mb-5 text-white justify-center text-center">Fiyat</p>
-        <button className='m-2 rounded-xl shadow-lg box-border p-4 text-white border-gray-600 bg-gray-700'>
-            Envanter'e Ekle
-        </button>
+    <div>
+      <div className="flex flex-col mx-16 h-[60vh]">
+        <div className="flex flex-row h-full mb-8">
+          <img
+            src="https://picsum.photos/1920/1080"
+            className="w-1/3 rounded-lg mx-5 h-full"
+            alt="Tatlı irem"
+          />
+          <div className="flex flex-col text-white">
+            <h2 className="text-4xl text-center text-red-600">
+              İrem çok çok çok çok tatlı{" "}
+            </h2>
+            <br />
+            <p className="text-xl w-2/3 mx-auto text-gray-300">
+              {" "}
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
+              voluptatem doloribus aperiam suscipit! Excepturi nulla suscipit
+              dolore alias architecto aliquam maiores culpa quia neque saepe.
+              Provident vitae explicabo incidunt ea. Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Nulla voluptatem doloribus aperiam
+              suscipit! Excepturi nulla suscipit dolore alias architecto aliquam
+              maiores culpa quia neque saepe. Provident vitae explicabo incidunt
+              ea. Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
+              voluptatem doloribus aperiam suscipit! Excepturi nulla suscipit
+              dolore alias architecto aliquam maiores culpa quia neque saepe.
+              Provident vitae explicabo incidunt ea.
+            </p>
+            <button className="border border-black bg-red-600 w-1/6 text-xl px-3 py-2 rounded-lg shadow-lg mx-auto mt-4 ">
+              {" "}
+              ALBENİ
+            </button>
+            <button></button>
+          </div>
+        </div>
       </div>
     </div>
-    <ToastContainer />
-    </div>
-
   );
-};
-
-export default NftPage;
+}
